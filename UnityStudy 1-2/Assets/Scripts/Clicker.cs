@@ -26,29 +26,32 @@ public class Clicker : MonoBehaviour
     }
     void Update()
     {
-        levelUpCost = (BigInteger)(50 * (Mathf.Pow(1.07f, uiManager.currentLevel - 1)));
-        power = (BigInteger)((float)levelUpCost * 0.4f);
-        if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
+        if(player != null)
         {
-            enemyManager.SortEnemy();
-            isClick = true;
-            outlineShader.OnClick(isClick);
-            canAttack = false;
-            if(enemyManager.enemyList.Count != 0)
+            levelUpCost = (BigInteger)(50 * (Mathf.Pow(1.07f, uiManager.currentLevel - 1)));
+            power = (BigInteger)((float)levelUpCost * 0.4f);
+            if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
             {
-                enemyManager.filterEnemyList[0].GetComponent<Enemy>().
-                EnemyOnHit(power);
+                enemyManager.SortEnemy();
+                isClick = true;
+                outlineShader.OnClick(isClick);
+                canAttack = false;
+                if(enemyManager.enemyList.Count != 0)
+                {
+                    enemyManager.filterEnemyList[0].GetComponent<Enemy>().
+                    EnemyOnHit(power);
+                }
+                else
+                {
+                    enemyManager.SpawnEnemy(enemyManager.enemyPrefab,enemyManager.spawnTransform);
+                }
+                StartCoroutine("AttackCool");
             }
-            else
+            if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                enemyManager.SpawnEnemy(enemyManager.enemyPrefab,enemyManager.spawnTransform);
+                isClick=false;
+                outlineShader.OnClick(isClick);
             }
-            StartCoroutine("AttackCool");
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            isClick=false;
-            outlineShader.OnClick(isClick);
         }
     }
 

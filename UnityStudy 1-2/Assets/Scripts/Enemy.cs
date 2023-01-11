@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] Slider hpSlider;
-    [SerializeField] float speed;
+    public float speed;
     [SerializeField] UnityEngine.Vector2 moveDir;
     private Rigidbody2D rigid;
     UIManager uiManager;
@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        speed = Random.Range(3f,5f);
         spriteRenderer = GameObject.Find("BackGround").GetComponent<SpriteRenderer>();
         gameManager = FindObjectOfType<GameManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
@@ -37,7 +38,7 @@ public class Enemy : MonoBehaviour
         rigid.velocity = moveDir * speed;
 
         if (!isBoss)
-            maxHP = 2 * (BigInteger)(10 * ((Mathf.Pow(1.06f, 10) - Mathf.Pow(1.06f, 10 + uiManager.currentStage)) / (1 - 1.06f)));
+            maxHP = (BigInteger)((Random.Range(10,21)/10 * 2) * (10 * ((Mathf.Pow(1.06f, 10) - Mathf.Pow(1.06f, 10 + uiManager.currentStage)) / (1 - 1.06f))));
         else
             maxHP = 20 * (BigInteger)(10 * ((Mathf.Pow(1.06f, 10) - Mathf.Pow(1.06f, 10 + uiManager.currentStage)) / (1 - 1.06f)));
         hp = maxHP;

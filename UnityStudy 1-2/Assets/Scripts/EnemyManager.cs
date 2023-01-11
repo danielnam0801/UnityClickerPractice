@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemy(GameObject enemyPrefab, Transform spawnTransform)
     {
-        if (enemyList.Count <= 5)
+        if (enemyList.Count <= 8)
         { 
             enemyList.Add(Instantiate(enemyPrefab, new Vector2(spawnTransform.position.x + Random.Range(-2.6f, 2.6f)
                 , spawnTransform.position.y), Quaternion.identity).GetComponent<Enemy>());
